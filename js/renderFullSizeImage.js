@@ -76,6 +76,7 @@ function renderFullSizeImage() {
 
 		renderBigPhoto(currentImage);
 
+		commentsList.innerHTML = '';
 		renderContent(currentImage.comments, commentsList, renderCommentItem);
 
 		openBigPhotoContainer();

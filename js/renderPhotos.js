@@ -1,4 +1,5 @@
 import photos from './data.js';
+import { renderContent } from './utils.js';
 
 const pictureTemplate = document
 	.querySelector('#picture')
@@ -17,7 +18,6 @@ function renderPhoto({ url, likes, comments }) {
 	return pictureElement;
 }
 
-const renderPhotos = () =>
-	photos.forEach(photo => picturesList.append(renderPhoto(photo)));
+const renderPhotos = () => renderContent(photos, picturesList, renderPhoto);
 
 export { renderPhotos };
