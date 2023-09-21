@@ -1,5 +1,5 @@
 import photos from './data.js';
-import { isEscEvent } from './utils.js';
+import { isEscEvent, renderContent } from './utils.js';
 
 const picturesList = document.querySelector('.pictures');
 const bigPictureContainer = document.querySelector('.big-picture');
@@ -76,11 +76,7 @@ function renderFullSizeImage() {
 
 		renderBigPhoto(currentImage);
 
-		commentsList.innerHTML = '';
-
-		currentImage.comments.forEach(comment => {
-			commentsList.append(renderCommentItem(comment));
-		});
+		renderContent(currentImage.comments, commentsList, renderCommentItem);
 
 		openBigPhotoContainer();
 	});

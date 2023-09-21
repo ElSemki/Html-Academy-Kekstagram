@@ -17,4 +17,16 @@ const checkingDeepLongStrings = (str, length) =>
 
 const isEscEvent = evt => evt.code === ('Escape' || 'Esc');
 
-export { checkingDeepLongStrings, getRandomIntInclusive, isEscEvent };
+function renderContent(arr, container, callback) {
+	container.innerHTML = '';
+	const contentFragment = document.createDocumentFragment();
+	arr.forEach(el => contentFragment.append(callback(el)));
+	container.append(contentFragment);
+}
+
+export {
+	checkingDeepLongStrings,
+	getRandomIntInclusive,
+	isEscEvent,
+	renderContent,
+};
