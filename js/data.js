@@ -30,9 +30,25 @@ const namesUsers = [
 	'Виктория',
 ];
 
-const photos = [];
+function addCommentsToPhoto() {
+	const comments = [];
 
-function addPhotos() {
+	for (let i = 0; i < getRandomIntInclusive(1, 6); i++) {
+		comments.push({
+			id: getRandomIntInclusive(1, 500),
+			avatar: `../img/avatar-${getRandomIntInclusive(1, 6)}.svg`,
+			message:
+				commentsPhotos[getRandomIntInclusive(0, commentsPhotos.length - 1)],
+			name: namesUsers[getRandomIntInclusive(0, namesUsers.length - 1)],
+		});
+	}
+
+	return comments;
+}
+
+function createArrayOfPhotos() {
+	const photos = [];
+
 	for (let i = 0; i < 25; i++) {
 		photos.push({
 			id: i + 1,
@@ -42,26 +58,13 @@ function addPhotos() {
 					getRandomIntInclusive(0, descriptionsPhotos.length - 1)
 				],
 			likes: getRandomIntInclusive(15, 200),
-			comments: [],
+			comments: addCommentsToPhoto(),
 		});
 	}
+
+	return photos;
 }
 
-function addPhotoComments() {
-	photos.forEach(photo => {
-		for (let i = 0; i < getRandomIntInclusive(1, 6); i++) {
-			photo.comments.push({
-				id: getRandomIntInclusive(1, 500),
-				avatar: `../img/avatar-${getRandomIntInclusive(1, 6)}.svg`,
-				message:
-					commentsPhotos[getRandomIntInclusive(0, commentsPhotos.length - 1)],
-				name: namesUsers[getRandomIntInclusive(0, namesUsers.length - 1)],
-			});
-		}
-	});
-}
-
-addPhotos();
-addPhotoComments();
+const photos = createArrayOfPhotos();
 
 export default photos;

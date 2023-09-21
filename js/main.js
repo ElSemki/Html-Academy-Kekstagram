@@ -1,3 +1,5 @@
-import photos from './data.js';
+import { renderFullSizeImage } from './renderFullSizeImage.js';
+import { renderPhotos } from './renderPhotos.js';
 
-console.log(photos);
+renderPhotos();
+renderFullSizeImage();
