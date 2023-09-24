@@ -7,7 +7,7 @@ import {
 	deleteScaleContainerEventListener,
 	resetScalePhoto,
 	scalePhoto,
-} from './scalePhoto.js';
+} from './scale-photo.js';
 import { closeModal, isEscEvent, openModal } from './utils.js';
 
 const uploadFileInput = document.querySelector('#upload-file');
