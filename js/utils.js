@@ -15,7 +15,7 @@ function getRandomIntInclusive(min, max) {
 const checkingDeepLongStrings = (str, length) =>
 	str.length > length ? false : true;
 
-const isEscEvent = evt => evt.code === ('Escape' || 'Esc');
+const isEscEvent = evt => evt.code === 'Escape' || evt.code === 'Esc';
 
 function renderContent(arr, container, callback) {
 	const contentFragment = document.createDocumentFragment();
@@ -23,9 +23,28 @@ function renderContent(arr, container, callback) {
 	container.append(contentFragment);
 }
 
+function openModal(modal) {
+	modal.classList.remove('hidden');
+	document.body.classList.add('modal-open');
+}
+
+function closeModal(modal) {
+	modal.classList.add('hidden');
+	document.body.classList.remove('modal-open');
+}
+
+const closeModalEscEvent = modal => {
+	document.addEventListener('keydown', evt => {
+		if (!modal.classList.contains('hidden') && isEscEvent(evt))
+			closeModal(modal);
+	});
+};
+
 export {
-	checkingDeepLongStrings,
+	closeModal,
+	closeModalEscEvent,
 	getRandomIntInclusive,
 	isEscEvent,
+	openModal,
 	renderContent,
 };

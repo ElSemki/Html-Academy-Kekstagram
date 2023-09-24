@@ -1,5 +1,10 @@
 import photos from './data.js';
-import { isEscEvent, renderContent } from './utils.js';
+import {
+	closeModal,
+	closeModalEscEvent,
+	openModal,
+	renderContent,
+} from './utils.js';
 
 const picturesList = document.querySelector('.pictures');
 const bigPictureContainer = document.querySelector('.big-picture');
@@ -15,29 +20,9 @@ const commentsLoader = bigPictureContainer.querySelector('.comments-loader');
 const bigPictureContainerCloseBtn =
 	bigPictureContainer.querySelector('#picture-cancel');
 
-const onBigPhotoContainerEscKeydown = evt => {
-	if (isEscEvent(evt)) {
-		closeBigPhotoContainer();
-	}
-};
-
-function openBigPhotoContainer() {
-	bigPictureContainer.classList.remove('hidden');
-	document.body.classList.add('modal-open');
-
-	//* Временно!
-	commentCountContainer.classList.add('hidden');
-	commentsLoader.classList.add('hidden');
-
-	document.addEventListener('keydown', onBigPhotoContainerEscKeydown);
-}
-
-function closeBigPhotoContainer() {
-	bigPictureContainer.classList.add('hidden');
-	document.body.classList.remove('modal-open');
-
-	document.removeEventListener('keydown', onBigPhotoContainerEscKeydown);
-}
+//* Временно!
+commentCountContainer.classList.add('hidden');
+commentsLoader.classList.add('hidden');
 
 function renderBigPhoto({ url, likes, comments, description }) {
 	pictureImg.src = url;
@@ -50,27 +35,28 @@ function renderCommentItem({ avatar, name, message }) {
 	const photoCommentItem = document.createElement('li');
 	photoCommentItem.classList.add('social__comment');
 	photoCommentItem.innerHTML = `
-			<img
-				class="social__picture"
-				src="${avatar}"
-				alt="${name}"
-				width="35" height="35">
-			<p class="social__text">${message}</p>
-			`;
+		<img
+			class="social__picture"
+			src="${avatar}"
+			alt="${name}"
+			width="35" height="35">
+		<p class="social__text">${message}</p>
+		`;
 	return photoCommentItem;
 }
 
 function renderFullSizeImage() {
 	picturesList.addEventListener('click', evt => {
-		if (!evt.target.closest('.picture')) {
-			return;
-		}
+		if (!evt.target.closest('.picture')) return;
 
 		evt.preventDefault();
 
-		const currentImage = photos.find(
-			photo => photo.url === evt.target.getAttribute('src')
-		);
+		const currentImagePath = evt.target
+			.closest('.picture')
+			.querySelector('.picture__img')
+			.getAttribute('src');
+
+		const currentImage = photos.find(photo => photo.url === currentImagePath);
 
 		if (!currentImage) return alert('Ошибка при показе выбранного фото');
 
@@ -79,10 +65,13 @@ function renderFullSizeImage() {
 		commentsList.innerHTML = '';
 		renderContent(currentImage.comments, commentsList, renderCommentItem);
 
-		openBigPhotoContainer();
+		openModal(bigPictureContainer);
+		closeModalEscEvent(bigPictureContainer);
 	});
 
-	bigPictureContainerCloseBtn.addEventListener('click', closeBigPhotoContainer);
+	bigPictureContainerCloseBtn.addEventListener('click', () => {
+		closeModal(bigPictureContainer);
+	});
 }
 
 export { renderFullSizeImage };

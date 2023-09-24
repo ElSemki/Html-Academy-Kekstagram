@@ -5,7 +5,9 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1" />
 		<link rel="stylesheet" href="css/normalize.css" />
 		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="./nouislider/nouislider.css" />
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+		<script src="./nouislider/nouislider.js" defer></script>
 		<script src="./js/main.js" type="module" defer></script>
 		<title>Кекстаграм</title>
 	</head>
@@ -91,7 +93,7 @@
 											<input
 												type="text"
 												class="scale__control scale__control--value"
-												value="55%"
+												value="100%"
 												title="Image Scale"
 												name="scale"
 												readonly
@@ -113,7 +115,9 @@
 										</div>
 
 										<!-- Изменение глубины эффекта, накладываемого на изображение -->
-										<fieldset class="img-upload__effect-level effect-level">
+										<fieldset
+											class="img-upload__effect-level effect-level hidden"
+										>
 											<input
 												class="effect-level__value"
 												type="number"
