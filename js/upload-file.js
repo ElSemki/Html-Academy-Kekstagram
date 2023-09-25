@@ -3,6 +3,7 @@ import {
 	filterPhoto,
 	resetFilterEffects,
 } from './filter-photo.js';
+import { hashTagsValidate } from './hash-tags-validate.js';
 import {
 	deleteScaleContainerEventListener,
 	resetScalePhoto,
@@ -32,7 +33,11 @@ function closeUploadFile() {
 }
 
 function onUploadFileEscKeydown(evt) {
-	if (isEscEvent(evt)) {
+	if (
+		isEscEvent(evt) &&
+		!document.activeElement.closest('.text__hashtags') &&
+		!document.activeElement.closest('.text__description')
+	) {
 		closeUploadFile();
 	}
 }
@@ -42,6 +47,7 @@ function uploadFile() {
 		openModal(overlay);
 		scalePhoto();
 		filterPhoto();
+		hashTagsValidate();
 		document.addEventListener('keydown', onUploadFileEscKeydown);
 	});
 

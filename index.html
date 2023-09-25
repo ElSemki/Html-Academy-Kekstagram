@@ -59,6 +59,7 @@
 							class="img-upload__form"
 							id="upload-select-image"
 							method="post"
+							action="https://23.javascript.pages.academy/kekstagram"
 							enctype="multipart/form-data"
 							autocomplete="off"
 						>
@@ -240,6 +241,7 @@
 									<!-- Добавление хэш-тегов и комментария к изображению -->
 									<fieldset class="img-upload__text text">
 										<input
+											type="text"
 											class="text__hashtags"
 											name="hashtags"
 											placeholder="#ХэшТег"
@@ -248,6 +250,7 @@
 											class="text__description"
 											name="description"
 											placeholder="Ваш комментарий..."
+											maxlength="140"
 										></textarea>
 									</fieldset>
 
