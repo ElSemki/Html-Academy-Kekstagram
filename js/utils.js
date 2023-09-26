@@ -44,7 +44,7 @@ const closeModalEscEvent = modal => {
 // 	return arr.some(callback);
 // }
 
-function showInvalidValueError(inputElement, message) {
+function showInvalidValueInputError(inputElement, message) {
 	inputElement.style.border = '1px solid red';
 	inputElement.setCustomValidity(message);
 }
@@ -56,5 +56,5 @@ export {
 	isEscEvent,
 	openModal,
 	renderContent,
-	showInvalidValueError,
+	showInvalidValueInputError,
 };

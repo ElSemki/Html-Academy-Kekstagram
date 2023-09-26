@@ -1,4 +1,4 @@
-import { showInvalidValueError } from './utils.js';
+import { showInvalidValueInputError } from './utils.js';
 
 const hashTagInput = document.querySelector('.text__hashtags');
 
@@ -50,33 +50,42 @@ function validateHashTags(evt) {
 
 	hashTagsArr.forEach((hashTag, i, arr) => {
 		if (hashTag.at(0) !== '#') {
-			showInvalidValueError(
+			showInvalidValueInputError(
 				hashTagInput,
 				'Хэш-тег должен начинаться с символа #'
 			);
 		}
 
 		if (hashTag === '#') {
-			showInvalidValueError(
+			showInvalidValueInputError(
 				hashTagInput,
 				'Хэш-тег не может состоять только из #'
 			);
 		}
 
 		if (hashTag.indexOf('#', 1) >= 1) {
-			showInvalidValueError(hashTagInput, 'Хэш-теги разделяются пробелами');
+			showInvalidValueInputError(
+				hashTagInput,
+				'Хэш-теги разделяются пробелами'
+			);
 		}
 
 		if (arr.indexOf(hashTag, i + 1) >= i + 1) {
-			showInvalidValueError(hashTagInput, 'Хэш-теги не должны повторяться');
+			showInvalidValueInputError(
+				hashTagInput,
+				'Хэш-теги не должны повторяться'
+			);
 		}
 
 		if (forbiddenSymbols.some(symbol => hashTag.indexOf(symbol) >= 1)) {
-			showInvalidValueError(hashTagInput, 'Хэш-тег имеет запрещенный символ');
+			showInvalidValueInputError(
+				hashTagInput,
+				'Хэш-тег имеет запрещенный символ'
+			);
 		}
 
 		if (hashTag.length > 20) {
-			showInvalidValueError(
+			showInvalidValueInputError(
 				hashTagInput,
 				'Максимальная длинна хэш-тега 20 символов'
 			);
@@ -84,7 +93,7 @@ function validateHashTags(evt) {
 	});
 
 	if (hashTagsArr.length > 5) {
-		showInvalidValueError(hashTagInput, 'Максимум 5 хэш-тегов');
+		showInvalidValueInputError(hashTagInput, 'Максимум 5 хэш-тегов');
 	}
 
 	hashTagInput.reportValidity();
