@@ -3,7 +3,11 @@ import {
 	filterPhoto,
 	resetFilterEffects,
 } from './filter-photo.js';
-import { hashTagsValidate } from './hash-tags-validate.js';
+import {
+	deleteHashTagInputEventListener,
+	hashTagsValidate,
+	resetValuesHashTag,
+} from './hash-tags-validate.js';
 import {
 	deleteScaleContainerEventListener,
 	resetScalePhoto,
@@ -19,6 +23,7 @@ const uploadCloseBtn = overlay.querySelector('#upload-cancel');
 function resetValues() {
 	resetScalePhoto();
 	resetFilterEffects();
+	resetValuesHashTag();
 	previewImage.classList.forEach(className =>
 		previewImage.classList.remove(className)
 	);
@@ -27,6 +32,7 @@ function resetValues() {
 function closeUploadFile() {
 	deleteScaleContainerEventListener();
 	deleteEffectsListEventListener();
+	deleteHashTagInputEventListener();
 	document.removeEventListener('keydown', onUploadFileEscKeydown);
 	resetValues();
 	closeModal(overlay);

@@ -40,7 +40,12 @@ const closeModalEscEvent = modal => {
 	});
 };
 
+function checkingForCorrectFormat(arr, callback) {
+	return arr.some(callback);
+}
+
 export {
+	checkingForCorrectFormat,
 	closeModal,
 	closeModalEscEvent,
 	getRandomIntInclusive,
