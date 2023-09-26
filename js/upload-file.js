@@ -24,6 +24,7 @@ function resetValues() {
 	resetScalePhoto();
 	resetFilterEffects();
 	resetValuesHashTag();
+	document.querySelector('.text__description').value = '';
 	previewImage.classList.forEach(className =>
 		previewImage.classList.remove(className)
 	);
