@@ -40,16 +40,21 @@ const closeModalEscEvent = modal => {
 	});
 };
 
-function checkingForCorrectFormat(arr, callback) {
-	return arr.some(callback);
+// function checkingCollectionForCorrectFormat(arr, callback) {
+// 	return arr.some(callback);
+// }
+
+function showInvalidValueError(inputElement, message) {
+	inputElement.style.border = '1px solid red';
+	inputElement.setCustomValidity(message);
 }
 
 export {
-	checkingForCorrectFormat,
 	closeModal,
 	closeModalEscEvent,
 	getRandomIntInclusive,
 	isEscEvent,
 	openModal,
 	renderContent,
+	showInvalidValueError,
 };
