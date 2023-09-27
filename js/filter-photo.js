@@ -133,10 +133,7 @@ function resetFilterEffects() {
 	sliderValue.value = '';
 
 	slider.noUiSlider.destroy();
-}
-
-function deleteEffectsListEventListener() {
 	effectsList.removeEventListener('change', effectsListChangeHandler);
 }
 
-export { deleteEffectsListEventListener, filterPhoto, resetFilterEffects };
+export { filterPhoto, resetFilterEffects };

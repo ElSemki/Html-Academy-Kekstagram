@@ -1,18 +1,6 @@
-import {
-	deleteEffectsListEventListener,
-	filterPhoto,
-	resetFilterEffects,
-} from './filter-photo.js';
-import {
-	deleteHashTagInputEventListener,
-	hashTagsValidate,
-	resetValuesHashTag,
-} from './hash-tags-validate.js';
-import {
-	deleteScaleContainerEventListener,
-	resetScalePhoto,
-	scalePhoto,
-} from './scale-photo.js';
+import { filterPhoto, resetFilterEffects } from './filter-photo.js';
+import { hashTagsValidate, resetHashTagInput } from './hash-tags-validate.js';
+import { resetScalePhoto, scalePhoto } from './scale-photo.js';
 import { deleteUploadFormEventListener, sendForm } from './send-form.js';
 import { closeModal, isEscEvent, openModal } from './utils.js';
 
@@ -21,23 +9,16 @@ const overlay = document.querySelector('.img-upload__overlay');
 const previewImage = overlay.querySelector('.img-upload__preview > img');
 const uploadCloseBtn = overlay.querySelector('#upload-cancel');
 
-function resetValues() {
+function closeUploadFile() {
 	resetScalePhoto();
 	resetFilterEffects();
-	resetValuesHashTag();
+	resetHashTagInput();
 	document.querySelector('.text__description').value = '';
 	previewImage.classList.forEach(className =>
 		previewImage.classList.remove(className)
 	);
-}
-
-function closeUploadFile() {
-	deleteScaleContainerEventListener();
-	deleteEffectsListEventListener();
-	deleteHashTagInputEventListener();
 	deleteUploadFormEventListener();
 	document.removeEventListener('keydown', onUploadFileEscKeydown);
-	resetValues();
 	closeModal(overlay);
 }
 
@@ -52,16 +33,16 @@ function onUploadFileEscKeydown(evt) {
 }
 
 function uploadFile() {
-	uploadFileInput.addEventListener('change', () => {
-		openModal(overlay);
-		scalePhoto();
-		filterPhoto();
-		hashTagsValidate();
-		sendForm();
-		document.addEventListener('keydown', onUploadFileEscKeydown);
-	});
-
-	uploadCloseBtn.addEventListener('click', closeUploadFile);
+	openModal(overlay);
+	scalePhoto();
+	filterPhoto();
+	hashTagsValidate();
+	sendForm();
+	document.addEventListener('keydown', onUploadFileEscKeydown);
 }
 
-export { closeUploadFile, previewImage, uploadFile };
+uploadFileInput.addEventListener('change', uploadFile);
+
+uploadCloseBtn.addEventListener('click', closeUploadFile);
+
+export { closeUploadFile, previewImage };

@@ -1,4 +1,4 @@
-import { photos } from './renderPhotos.js';
+import { photos } from './photos.js';
 import {
 	closeModal,
 	closeModalEscEvent,
@@ -45,33 +45,31 @@ function renderCommentItem({ avatar, name, message }) {
 	return photoCommentItem;
 }
 
-function renderFullSizeImage() {
-	picturesList.addEventListener('click', evt => {
-		if (!evt.target.closest('.picture')) return;
+function renderFullSizeImage(evt) {
+	if (!evt.target.closest('.picture')) return;
 
-		evt.preventDefault();
+	evt.preventDefault();
 
-		const currentImagePath = evt.target
-			.closest('.picture')
-			.querySelector('.picture__img')
-			.getAttribute('src');
+	const currentImagePath = evt.target
+		.closest('.picture')
+		.querySelector('.picture__img')
+		.getAttribute('src');
 
-		const currentImage = photos.find(photo => photo.url === currentImagePath);
+	const currentImage = photos.find(photo => photo.url === currentImagePath);
 
-		if (!currentImage) return alert('Ошибка при показе выбранного фото');
+	if (!currentImage) return alert('Ошибка при показе выбранного фото');
 
-		renderBigPhoto(currentImage);
+	renderBigPhoto(currentImage);
 
-		commentsList.innerHTML = '';
-		renderContent(currentImage.comments, commentsList, renderCommentItem);
+	commentsList.innerHTML = '';
+	renderContent(currentImage.comments, commentsList, renderCommentItem);
 
-		openModal(bigPictureContainer);
-		closeModalEscEvent(bigPictureContainer);
-	});
-
-	bigPictureContainerCloseBtn.addEventListener('click', () => {
-		closeModal(bigPictureContainer);
-	});
+	openModal(bigPictureContainer);
+	closeModalEscEvent(bigPictureContainer);
 }
 
-export { renderFullSizeImage };
+picturesList.addEventListener('click', renderFullSizeImage);
+
+bigPictureContainerCloseBtn.addEventListener('click', () => {
+	closeModal(bigPictureContainer);
+});

@@ -1,7 +1,2 @@
-import { renderFullSizeImage } from './renderFullSizeImage.js';
-import { renderPhotos } from './renderPhotos.js';
-import { uploadFile } from './upload-file.js';
-
-renderPhotos();
-renderFullSizeImage();
-uploadFile();
+import './render-full-size-image.js';
+import './upload-file.js';

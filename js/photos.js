@@ -6,6 +6,8 @@ const pictureTemplate = document
 
 const picturesList = document.querySelector('.pictures');
 
+let photos;
+
 function renderPhoto({ url, likes, comments }) {
 	const pictureElement = pictureTemplate.cloneNode(true);
 	pictureElement.querySelector('.picture__img').src = url;
@@ -15,8 +17,6 @@ function renderPhoto({ url, likes, comments }) {
 
 	return pictureElement;
 }
-
-let photos;
 
 async function renderPhotos() {
 	try {
@@ -28,4 +28,6 @@ async function renderPhotos() {
 		alert(e);
 	}
 }
-export { photos, renderPhotos };
+renderPhotos();
+
+export { photos };

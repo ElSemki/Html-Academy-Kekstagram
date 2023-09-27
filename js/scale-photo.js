@@ -31,9 +31,7 @@ function scalePhoto() {
 function resetScalePhoto() {
 	controlInput.value = '100%';
 	previewImage.style.transform = 'scale(1)';
+	scaleContainer.removeEventListener('click', scaleContainerClickHandler);
 }
 
-const deleteScaleContainerEventListener = () =>
-	scaleContainer.removeEventListener('click', scaleContainerClickHandler);
-
-export { deleteScaleContainerEventListener, resetScalePhoto, scalePhoto };
+export { resetScalePhoto, scalePhoto };

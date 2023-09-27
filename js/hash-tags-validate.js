@@ -103,17 +103,10 @@ function hashTagsValidate() {
 	hashTagInput.addEventListener('input', validateHashTags);
 }
 
-function deleteHashTagInputEventListener() {
+function resetHashTagInput() {
+	hashTagInput.value = '';
+	hashTagInput.style.border = 'none';
 	hashTagInput.removeEventListener('input', validateHashTags);
 }
 
-function resetValuesHashTag() {
-	hashTagInput.value = '';
-	hashTagInput.style.border = 'none';
-}
-
-export {
-	deleteHashTagInputEventListener,
-	hashTagsValidate,
-	resetValuesHashTag,
-};
+export { hashTagsValidate, resetHashTagInput };
