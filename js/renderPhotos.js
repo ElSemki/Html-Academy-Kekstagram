@@ -1,5 +1,4 @@
-import photos from './data.js';
-import { renderContent } from './utils.js';
+import { getData, renderContent } from './utils.js';
 
 const pictureTemplate = document
 	.querySelector('#picture')
@@ -17,6 +16,16 @@ function renderPhoto({ url, likes, comments }) {
 	return pictureElement;
 }
 
-const renderPhotos = () => renderContent(photos, picturesList, renderPhoto);
+let photos;
 
-export { renderPhotos };
+async function renderPhotos() {
+	try {
+		photos = await getData(
+			'https://23.javascript.pages.academy/kekstagram/data'
+		);
+		renderContent(photos, picturesList, renderPhoto);
+	} catch (e) {
+		alert(e);
+	}
+}
+export { photos, renderPhotos };

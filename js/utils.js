@@ -1,17 +1,3 @@
-function getRandomIntInclusive(min, max) {
-	if (typeof min !== 'number' || typeof max !== 'number') {
-		return alert('Введите числовое значение!');
-	}
-
-	if (min > max) {
-		[min, max] = [max, min];
-	}
-
-	min = Math.ceil(min);
-	max = Math.floor(max);
-	return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
 const checkingDeepLongStrings = (str, length) =>
 	str.length > length ? false : true;
 
@@ -40,21 +26,36 @@ const closeModalEscEvent = modal => {
 	});
 };
 
-// function checkingCollectionForCorrectFormat(arr, callback) {
-// 	return arr.some(callback);
-// }
-
 function showInvalidValueInputError(inputElement, message) {
 	inputElement.style.border = '1px solid red';
 	inputElement.setCustomValidity(message);
 }
 
+async function getData(url) {
+	const response = await fetch(url);
+	if (!response.ok) {
+		throw new Error(`${response.status}:, ${response.statusText}`);
+	}
+	const data = await response.json();
+	return data;
+}
+
+async function postData(url, data) {
+	const response = await fetch(url, {
+		method: 'POST',
+		body: data,
+	});
+
+	return await response.json();
+}
+
 export {
 	closeModal,
 	closeModalEscEvent,
-	getRandomIntInclusive,
+	getData,
 	isEscEvent,
 	openModal,
+	postData,
 	renderContent,
 	showInvalidValueInputError,
 };

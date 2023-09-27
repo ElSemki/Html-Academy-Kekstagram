@@ -13,6 +13,7 @@ import {
 	resetScalePhoto,
 	scalePhoto,
 } from './scale-photo.js';
+import { deleteUploadFormEventListener, sendForm } from './send-form.js';
 import { closeModal, isEscEvent, openModal } from './utils.js';
 
 const uploadFileInput = document.querySelector('#upload-file');
@@ -34,6 +35,7 @@ function closeUploadFile() {
 	deleteScaleContainerEventListener();
 	deleteEffectsListEventListener();
 	deleteHashTagInputEventListener();
+	deleteUploadFormEventListener();
 	document.removeEventListener('keydown', onUploadFileEscKeydown);
 	resetValues();
 	closeModal(overlay);
@@ -55,10 +57,11 @@ function uploadFile() {
 		scalePhoto();
 		filterPhoto();
 		hashTagsValidate();
+		sendForm();
 		document.addEventListener('keydown', onUploadFileEscKeydown);
 	});
 
 	uploadCloseBtn.addEventListener('click', closeUploadFile);
 }
 
-export { previewImage, uploadFile };
+export { closeUploadFile, previewImage, uploadFile };
