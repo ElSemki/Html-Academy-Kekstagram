@@ -36,8 +36,7 @@ async function getData(url) {
 	if (!response.ok) {
 		throw new Error(`${response.status}:, ${response.statusText}`);
 	}
-	const data = await response.json();
-	return data;
+	return await response.json();
 }
 
 async function postData(url, data) {
