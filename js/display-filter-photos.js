@@ -1,4 +1,4 @@
-import { photos, picturesList, renderPhoto } from './photos.js';
+import { createPhoto, photos, picturesList } from './photos.js';
 import { getRandomIntInclusive, renderContent } from './utils.js';
 
 const displayFilterForm = document.querySelector('.img-filters__form');
@@ -35,7 +35,7 @@ function filterPhotos(evt, arr) {
 	);
 	evt.target.classList.add('img-filters__button--active');
 	picturesList.querySelectorAll('a').forEach(a => a.remove());
-	renderContent(arr, picturesList, renderPhoto);
+	renderContent(arr, picturesList, createPhoto);
 }
 
 function displayFilterPhotos() {

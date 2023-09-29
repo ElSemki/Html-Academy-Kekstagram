@@ -8,7 +8,7 @@ const pictureTemplate = document
 const photosFilter = document.querySelector('.img-filters');
 let photos;
 
-function renderPhoto({ url, likes, comments }) {
+function createPhoto({ url, likes, comments }) {
 	const pictureElement = pictureTemplate.cloneNode(true);
 	pictureElement.querySelector('.picture__img').src = url;
 	pictureElement.querySelector('.picture__likes').textContent = likes;
@@ -23,16 +23,14 @@ async function renderPhotos() {
 		photos = await getData(
 			'https://23.javascript.pages.academy/kekstagram/data'
 		);
-		renderContent(photos, picturesList, renderPhoto);
-
+		renderContent(photos, picturesList, createPhoto);
 		photosFilter.classList.remove('img-filters--inactive');
 		displayFilterPhotos();
 	} catch (e) {
-		console.log('hello');
 		alert(e);
 	}
 }
 
 renderPhotos();
 
-export { photos, picturesList, renderPhoto };
+export { createPhoto, photos, picturesList };
