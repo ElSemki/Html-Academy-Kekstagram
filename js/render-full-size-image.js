@@ -19,10 +19,12 @@ const commentsList = bigPictureContainer.querySelector('.social__comments');
 const commentsLoader = bigPictureContainer.querySelector('.comments-loader');
 const bigPictureContainerCloseBtn =
 	bigPictureContainer.querySelector('#picture-cancel');
+const printCommentsCount = commentCountContainer.querySelector(
+	'.print-comments-count'
+);
 
-//* Временно!
-commentCountContainer.classList.add('hidden');
-commentsLoader.classList.add('hidden');
+let currentImage;
+let commentsLength;
 
 function renderBigPhoto({ url, likes, comments, description }) {
 	pictureImg.src = url;
@@ -31,7 +33,7 @@ function renderBigPhoto({ url, likes, comments, description }) {
 	pictureCaption.textContent = description;
 }
 
-function renderCommentItem({ avatar, name, message }) {
+function createCommentItem({ avatar, name, message }) {
 	const photoCommentItem = document.createElement('li');
 	photoCommentItem.classList.add('social__comment');
 	photoCommentItem.innerHTML = `
@@ -45,6 +47,27 @@ function renderCommentItem({ avatar, name, message }) {
 	return photoCommentItem;
 }
 
+function renderComments() {
+	const printCommentsLength = commentsList.children.length;
+
+	if (printCommentsLength + 5 >= commentsLength) {
+		renderContent(
+			currentImage.comments.slice(printCommentsLength),
+			commentsList,
+			createCommentItem
+		);
+		commentsLoader.classList.add('hidden');
+		printCommentsCount.textContent = commentsLength;
+	} else {
+		renderContent(
+			currentImage.comments.slice(printCommentsLength, printCommentsLength + 5),
+			commentsList,
+			createCommentItem
+		);
+		printCommentsCount.textContent = printCommentsLength + 5;
+	}
+}
+
 function renderFullSizeImage(evt) {
 	if (!evt.target.closest('.picture')) return;
 
@@ -55,15 +78,33 @@ function renderFullSizeImage(evt) {
 		.querySelector('.picture__img')
 		.getAttribute('src');
 
-	const currentImage = photos.find(photo => photo.url === currentImagePath);
+	currentImage = photos.find(photo => photo.url === currentImagePath);
 
 	if (!currentImage) return alert('Ошибка при показе выбранного фото');
 
 	renderBigPhoto(currentImage);
 
-	commentsList.innerHTML = '';
-	renderContent(currentImage.comments, commentsList, renderCommentItem);
+	commentsLength = currentImage.comments.length;
 
+	commentsList.innerHTML = '';
+
+	if (commentsLength <= 5) {
+		renderContent(currentImage.comments, commentsList, createCommentItem);
+		commentsLoader.classList.add('hidden');
+		printCommentsCount.textContent = commentsLength;
+	}
+
+	if (commentsLength > 5) {
+		renderContent(
+			currentImage.comments.slice(0, 5),
+			commentsList,
+			createCommentItem
+		);
+		printCommentsCount.textContent = 5;
+		commentsLoader.classList.remove('hidden');
+	}
+
+	commentsLoader.addEventListener('click', renderComments);
 	openModal(bigPictureContainer);
 	closeModalEscEvent(bigPictureContainer);
 }
@@ -71,5 +112,6 @@ function renderFullSizeImage(evt) {
 picturesList.addEventListener('click', renderFullSizeImage);
 
 bigPictureContainerCloseBtn.addEventListener('click', () => {
+	commentsLoader.removeEventListener('click', renderComments);
 	closeModal(bigPictureContainer);
 });
