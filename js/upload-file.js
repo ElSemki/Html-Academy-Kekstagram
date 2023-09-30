@@ -7,7 +7,29 @@ import { closeModal, isEscEvent, openModal } from './utils.js';
 const uploadFileInput = document.querySelector('#upload-file');
 const overlay = document.querySelector('.img-upload__overlay');
 const previewImage = overlay.querySelector('.img-upload__preview > img');
+const effectsPreviews = document.querySelectorAll('.effects__preview');
 const uploadCloseBtn = overlay.querySelector('#upload-cancel');
+
+const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+
+function openPreviewImage() {
+	const file = uploadFileInput.files[0];
+	const fileName = file.name.toLowerCase();
+	const matches = FILE_TYPES.some(it => fileName.endsWith(it));
+
+	if (!matches) return;
+
+	const reader = new FileReader();
+
+	reader.addEventListener('load', () => {
+		previewImage.src = reader.result;
+		effectsPreviews.forEach(
+			preview => (preview.style.backgroundImage = `url(${reader.result})`)
+		);
+	});
+
+	reader.readAsDataURL(file);
+}
 
 function closeUploadFile() {
 	resetScalePhoto();
@@ -33,11 +55,12 @@ function onUploadFileEscKeydown(evt) {
 }
 
 function uploadFile() {
-	openModal(overlay);
+	openPreviewImage();
 	scalePhoto();
 	filterPhoto();
 	hashTagsValidate();
 	sendForm();
+	openModal(overlay);
 	document.addEventListener('keydown', onUploadFileEscKeydown);
 }
 
