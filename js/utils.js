@@ -4,9 +4,6 @@ function getRandomIntInclusive(min, max) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-const checkingDeepLongStrings = (str, length) =>
-	str.length > length ? false : true;
-
 const isEscEvent = evt => evt.code === 'Escape' || evt.code === 'Esc';
 
 function renderContent(arr, container, callback) {

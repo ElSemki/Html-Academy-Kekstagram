@@ -7,6 +7,46 @@ const sliderValue = effectLevelContainer.querySelector('.effect-level__value');
 const effectsList = document.querySelector('.effects__list');
 const effectsRadios = effectsList.querySelectorAll('.effects__radio');
 
+const effects = {
+	chrome: {
+		min: 0,
+		max: 1,
+		start: 1,
+		step: 0.1,
+		filter: () =>
+			(previewImage.style.filter = `grayscale(${sliderValue.value})`),
+	},
+	sepia: {
+		min: 0,
+		max: 1,
+		start: 1,
+		step: 0.1,
+		filter: () => (previewImage.style.filter = `sepia(${sliderValue.value})`),
+	},
+	marvin: {
+		min: 0,
+		max: 100,
+		start: 100,
+		step: 1,
+		filter: () => (previewImage.style.filter = `invert(${sliderValue.value}%)`),
+	},
+	phobos: {
+		min: 0,
+		max: 3,
+		start: 3,
+		step: 0.1,
+		filter: () => (previewImage.style.filter = `blur(${sliderValue.value}px)`),
+	},
+	heat: {
+		min: 1,
+		max: 3,
+		start: 3,
+		step: 0.1,
+		filter: () =>
+			(previewImage.style.filter = `brightness(${sliderValue.value})`),
+	},
+};
+
 let effectValue;
 
 function effectsListChangeHandler(evt) {
@@ -20,57 +60,22 @@ function effectsListChangeHandler(evt) {
 
 	if (effectValue === 'none') {
 		effectLevelContainer.classList.add('hidden');
-		previewImage.classList.remove(`effects__preview--${effectValue}`);
 		previewImage.style.filter = 'none';
 		sliderValue.value = '';
-	} else {
-		effectLevelContainer.classList.remove('hidden');
-		previewImage.classList.add(`effects__preview--${effectValue}`);
+		return;
 	}
 
-	switch (effectValue) {
-		case 'chrome':
-		case 'sepia':
-			slider.noUiSlider.updateOptions({
-				range: {
-					min: 0,
-					max: 1,
-				},
-				start: 1,
-				step: 0.1,
-			});
-			break;
-		case 'marvin':
-			slider.noUiSlider.updateOptions({
-				range: {
-					min: 0,
-					max: 100,
-				},
-				start: 100,
-				step: 1,
-			});
-			break;
-		case 'phobos':
-			slider.noUiSlider.updateOptions({
-				range: {
-					min: 0,
-					max: 3,
-				},
-				start: 3,
-				step: 0.1,
-			});
-			break;
-		case 'heat':
-			slider.noUiSlider.updateOptions({
-				range: {
-					min: 1,
-					max: 3,
-				},
-				start: 3,
-				step: 0.1,
-			});
-			break;
-	}
+	effectLevelContainer.classList.remove('hidden');
+	previewImage.classList.add(`effects__preview--${effectValue}`);
+
+	slider.noUiSlider.updateOptions({
+		range: {
+			min: effects[effectValue].min,
+			max: effects[effectValue].max,
+		},
+		start: effects[effectValue].start,
+		step: effects[effectValue].step,
+	});
 }
 
 function filterPhoto() {
@@ -99,23 +104,7 @@ function filterPhoto() {
 
 	slider.noUiSlider.on('update', (values, handle) => {
 		sliderValue.value = values[handle];
-		switch (effectValue) {
-			case 'chrome':
-				previewImage.style.filter = `grayscale(${sliderValue.value})`;
-				break;
-			case 'sepia':
-				previewImage.style.filter = `sepia(${sliderValue.value})`;
-				break;
-			case 'marvin':
-				previewImage.style.filter = `invert(${sliderValue.value}%)`;
-				break;
-			case 'phobos':
-				previewImage.style.filter = `blur(${sliderValue.value}px)`;
-				break;
-			case 'heat':
-				previewImage.style.filter = `brightness(${sliderValue.value})`;
-				break;
-		}
+		effects[effectValue]?.filter();
 	});
 }
 

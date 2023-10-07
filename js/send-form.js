@@ -1,7 +1,4 @@
-import {
-	deleteSendStatusPopupEventListener,
-	showSendStatusPopup,
-} from './dispatch-messages.js';
+import { showSendStatusPopup } from './dispatch-messages.js';
 import { closeUploadFile } from './upload-file.js';
 import { postData } from './utils.js';
 
@@ -23,7 +20,6 @@ async function sendPhoto(data) {
 	} finally {
 		uploadForm.reset();
 		closeUploadFile();
-		deleteSendStatusPopupEventListener();
 		deleteUploadFormEventListener();
 	}
 }
