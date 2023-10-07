@@ -1,4 +1,4 @@
-import { isEscEvent } from './utils.js';
+import { isEscEvent } from '../utils.js';
 
 const successPopup = document
 	.querySelector('#success')

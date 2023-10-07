@@ -1,4 +1,4 @@
-import { showInvalidValueInputError } from './utils.js';
+import { showInvalidValueInputError } from '../utils.js';
 
 const hashTagInput = document.querySelector('.text__hashtags');
 

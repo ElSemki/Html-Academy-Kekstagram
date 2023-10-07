@@ -1,6 +1,6 @@
+import { postData } from '../utils.js';
 import { showSendStatusPopup } from './dispatch-messages.js';
 import { closeUploadFile } from './upload-file.js';
-import { postData } from './utils.js';
 
 const uploadForm = document.querySelector('#upload-select-image');
 

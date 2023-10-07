@@ -1,8 +1,8 @@
+import { closeModal, isEscEvent, openModal } from '../utils.js';
 import { filterPhoto, resetFilterEffects } from './filter-photo.js';
 import { hashTagsValidate, resetHashTagInput } from './hash-tags-validate.js';
 import { resetScalePhoto, scalePhoto } from './scale-photo.js';
 import { deleteUploadFormEventListener, sendForm } from './send-form.js';
-import { closeModal, isEscEvent, openModal } from './utils.js';
 
 const uploadFileInput = document.querySelector('#upload-file');
 const overlay = document.querySelector('.img-upload__overlay');
