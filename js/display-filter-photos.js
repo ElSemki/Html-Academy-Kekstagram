@@ -1,55 +1,41 @@
 import { createPhoto, photos, picturesList } from './photos.js';
-import { getRandomIntInclusive, renderContent } from './utils.js';
+import { renderContent, shuffleArray } from './utils.js';
 
-const displayFilterForm = document.querySelector('.img-filters__form');
-const filterButtons = document.querySelectorAll('.img-filters__button');
+const photosFilter = document.querySelector('.img-filters');
+const displayFilterForm = photosFilter.querySelector('.img-filters__form');
+const filterButtons = photosFilter.querySelectorAll('.img-filters__button');
 
-function getDiscussedPhotos() {
-	const discussedPhotos = photos
-		.slice()
-		.sort((a, b) => b.comments.length - a.comments.length);
-	return discussedPhotos;
-}
-
-function getTenRandomPhotos() {
-	const randomPhotosArr = [];
-	let randomNumber;
-
-	while (randomPhotosArr.length < 10) {
-		randomNumber = getRandomIntInclusive(0, photos.length - 1);
-		if (
-			!randomPhotosArr.some(
-				randomPhoto => randomPhoto.id === photos[randomNumber].id
-			)
-		) {
-			randomPhotosArr.push(photos[randomNumber]);
-		}
-	}
-
-	return randomPhotosArr;
-}
-
-function filterPhotos(evt, arr) {
-	filterButtons.forEach(btn =>
-		btn.classList.remove('img-filters__button--active')
-	);
-	evt.target.classList.add('img-filters__button--active');
-	picturesList.querySelectorAll('a').forEach(a => a.remove());
-	renderContent(arr, picturesList, createPhoto);
-}
+const filters = {
+	'filter-default': () => renderContent(photos, picturesList, createPhoto),
+	'filter-random': () =>
+		renderContent(
+			shuffleArray(photos.slice()).slice(0, 10),
+			picturesList,
+			createPhoto
+		),
+	'filter-discussed': () =>
+		renderContent(
+			photos.slice().sort((a, b) => b.comments.length - a.comments.length),
+			picturesList,
+			createPhoto
+		),
+};
 
 function displayFilterPhotos() {
-	displayFilterForm.addEventListener('click', evt => {
-		if (evt.target.closest('#filter-default')) {
-			filterPhotos(evt, photos);
-		}
-		if (evt.target.closest('#filter-random')) {
-			filterPhotos(evt, getTenRandomPhotos());
-		}
+	photosFilter.classList.remove('img-filters--inactive');
 
-		if (evt.target.closest('#filter-discussed')) {
-			filterPhotos(evt, getDiscussedPhotos());
-		}
+	displayFilterForm.addEventListener('click', evt => {
+		if (!evt.target.closest('.img-filters__button')) return;
+
+		filterButtons.forEach(btn =>
+			btn.classList.remove('img-filters__button--active')
+		);
+
+		picturesList.querySelectorAll('.picture').forEach(a => a.remove());
+
+		filters[evt.target.id]();
+
+		evt.target.classList.add('img-filters__button--active');
 	});
 }
 

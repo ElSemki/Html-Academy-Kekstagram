@@ -1,2 +1,4 @@
-import './render-full-size-image.js';
+import { renderPhotos } from './photos.js';
 import './upload-file.js';
+
+renderPhotos();

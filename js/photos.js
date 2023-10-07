@@ -1,11 +1,12 @@
 import { displayFilterPhotos } from './display-filter-photos.js';
+import { renderFullSizeImage } from './render-full-size-image.js';
 import { getData, renderContent } from './utils.js';
 
 const picturesList = document.querySelector('.pictures');
 const pictureTemplate = document
 	.querySelector('#picture')
 	.content.querySelector('.picture');
-const photosFilter = document.querySelector('.img-filters');
+
 let photos;
 
 function createPhoto({ url, likes, comments }) {
@@ -24,13 +25,11 @@ async function renderPhotos() {
 			'https://23.javascript.pages.academy/kekstagram/data'
 		);
 		renderContent(photos, picturesList, createPhoto);
-		photosFilter.classList.remove('img-filters--inactive');
 		displayFilterPhotos();
+		renderFullSizeImage();
 	} catch (e) {
 		alert(e);
 	}
 }
 
-renderPhotos();
-
-export { createPhoto, photos, picturesList };
+export { createPhoto, photos, picturesList, renderPhotos };

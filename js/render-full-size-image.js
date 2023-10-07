@@ -1,10 +1,5 @@
 import { photos } from './photos.js';
-import {
-	closeModal,
-	closeModalEscEvent,
-	openModal,
-	renderContent,
-} from './utils.js';
+import { closeModal, isEscEvent, openModal, renderContent } from './utils.js';
 
 const picturesList = document.querySelector('.pictures');
 const bigPictureContainer = document.querySelector('.big-picture');
@@ -26,7 +21,7 @@ const printCommentsCount = commentCountContainer.querySelector(
 let currentImage;
 let commentsLength;
 
-function renderBigPhoto({ url, likes, comments, description }) {
+function createBigPhoto({ url, likes, comments, description }) {
 	pictureImg.src = url;
 	likesCount.textContent = likes;
 	commentsCount.textContent = comments.length;
@@ -68,7 +63,7 @@ function renderComments() {
 	}
 }
 
-function renderFullSizeImage(evt) {
+function picturesListClickHandler(evt) {
 	if (!evt.target.closest('.picture')) return;
 
 	evt.preventDefault();
@@ -82,36 +77,50 @@ function renderFullSizeImage(evt) {
 
 	if (!currentImage) return alert('Ошибка при показе выбранного фото');
 
-	renderBigPhoto(currentImage);
+	createBigPhoto(currentImage);
 
 	commentsLength = currentImage.comments.length;
 
 	commentsList.innerHTML = '';
 
 	if (commentsLength <= 5) {
-		renderContent(currentImage.comments, commentsList, createCommentItem);
 		commentsLoader.classList.add('hidden');
+		renderContent(currentImage.comments, commentsList, createCommentItem);
 		printCommentsCount.textContent = commentsLength;
 	}
 
 	if (commentsLength > 5) {
+		commentsLoader.classList.remove('hidden');
 		renderContent(
 			currentImage.comments.slice(0, 5),
 			commentsList,
 			createCommentItem
 		);
 		printCommentsCount.textContent = 5;
-		commentsLoader.classList.remove('hidden');
 	}
 
 	commentsLoader.addEventListener('click', renderComments);
+	document.addEventListener('keydown', onPicturesListEscEvt);
+
 	openModal(bigPictureContainer);
-	closeModalEscEvent(bigPictureContainer);
 }
 
-picturesList.addEventListener('click', renderFullSizeImage);
+function onPicturesListEscEvt(evt) {
+	if (isEscEvent(evt)) {
+		closeModal(bigPictureContainer);
+		commentsLoader.removeEventListener('click', renderComments);
+		document.removeEventListener('keydown', onPicturesListEscEvt);
+	}
+}
 
-bigPictureContainerCloseBtn.addEventListener('click', () => {
-	commentsLoader.removeEventListener('click', renderComments);
-	closeModal(bigPictureContainer);
-});
+function renderFullSizeImage() {
+	picturesList.addEventListener('click', picturesListClickHandler);
+
+	bigPictureContainerCloseBtn.addEventListener('click', () => {
+		closeModal(bigPictureContainer);
+		commentsLoader.removeEventListener('click', renderComments);
+		document.removeEventListener('keydown', onPicturesListEscEvt);
+	});
+}
+
+export { renderFullSizeImage };
